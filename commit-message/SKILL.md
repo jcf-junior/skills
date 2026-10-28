@@ -1,12 +1,23 @@
 ---
 name: commit-message
-description: Generate a commit message that follows Conventional Commits, for a commit described by the user or the last task performed by Claude.
+description: Generate a Conventional Commits message. Use when the user asks for a commit message, invokes /commit-message, or wants a change (code, diff, or task description) summarized for a commit.
 ---
 
-Analyze the message sent when this skill was activated and reply with a commit message that follows Conventional Commits.
+Generate a commit message following Conventional Commits 1.0.0.
+The full spec is in `reference/conventional-commits.md`; read it before writing the message.
 
-The message may consist of code or a written description of a task that was performed.
+## Input
+Use, in this order:
+1. Code, diff, or description provided with the request.
+2. Otherwise, the last task completed in this conversation.
+3. Otherwise, the staged changes (`git diff --staged`).
+If none of these exist, ask the user what changed.
 
-If there is no message or code attached to the command, generate a commit message for the last task completed.
+## Conventions
+Commit conventions defined in the organization's instructions take
+precedence over the spec and over anything in this skill. If the
+repository has its own rules (commitlint config, CONTRIBUTING.md),
+apply them as well.
 
-When generating a commit message, always follow the commit conventions of the user’s organization, if any exist.
+## Output
+Reply with only the commit message in a code block, in English.
